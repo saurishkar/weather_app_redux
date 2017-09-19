@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import getForecast from '../actions/index';
 
 class SearchBar extends React.Component {
 	constructor(props) {
@@ -8,6 +11,7 @@ class SearchBar extends React.Component {
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		// this.props.getForecast = this.props.getForecast.bind(this);
 	}
 
 	handleChange(event) {
@@ -24,15 +28,11 @@ class SearchBar extends React.Component {
 
 	handleFormSubmit(event) {
 		event.preventDefault();
-		const url = `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.term}&mode=xml&appid=7a361ea910c9bdc5d15b0a0685b9dcd7`;
-		$.ajax({
-			url: url,
-		})
-		.done((msg) => {
-			console.log(msg);
-		})
-		.fail(() => {
-			console.log("error");
+		this.props.getForecast(this.state.term); //calling the action creator to send an ajax request
+											//to fetch the weather details based on the city sent
+											//as an input to the action creator
+		this.setState({
+			term: ''
 		});
 	}
 
@@ -53,4 +53,8 @@ class SearchBar extends React.Component {
 
 }
 
-export default SearchBar;
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ getForecast }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
