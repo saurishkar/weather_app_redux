@@ -7,6 +7,7 @@ class SearchBar extends React.Component {
 			term: ''
 		}
 		this.handleChange = this.handleChange.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
 	handleChange(event) {
@@ -23,13 +24,15 @@ class SearchBar extends React.Component {
 
 	handleFormSubmit(event) {
 		event.preventDefault();
-		const url = `api.openweathermap.org/data/2.5/forecast?q=${this.state.term}&mode=xml`;
+		const url = `https://api.openweathermap.org/data/2.5/forecast?q=${this.state.term}&mode=xml&appid=7a361ea910c9bdc5d15b0a0685b9dcd7`;
 		$.ajax({
-			async: false,
 			url: url,
 		})
 		.done((msg) => {
 			console.log(msg);
+		})
+		.fail(() => {
+			console.log("error");
 		});
 	}
 
