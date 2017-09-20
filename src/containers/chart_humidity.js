@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import fetchChart from '../actions/fetch_chart';
 
-const CHART_TYPE = 'pressure';
+const CHART_TYPE = 'humidity';
 
-class ChartPressure extends React.Component {
+class ChartHumidity extends React.Component {
 	constructor(props) {
 		super(props);
 		this.epochToDay = this.epochToDay.bind(this);
@@ -17,10 +17,10 @@ class ChartPressure extends React.Component {
 			console.log(this.props.weather[this.props.value]);
 			const chartData = new google.visualization.DataTable();
 		  	chartData.addColumn('string', 'Date');
-		  	chartData.addColumn('number', 'Pressure');
+		  	chartData.addColumn('number', 'Humidity');
 		  	const rows = 
 		  		this.props.weather[this.props.value].list.map((elem) => {
-		  			return [this.epochToDay(elem.dt), elem.main.pressure];
+		  			return [this.epochToDay(elem.dt), elem.main.humidity];
 		  		});
 			chartData.addRows(rows);
 
@@ -29,7 +29,7 @@ class ChartPressure extends React.Component {
 		      	title: `${this.getCurrentMonth()}, ${new Date().getFullYear().toString()}`
 		    	},
 		    	vAxis: {
-		      	title: 'Pascal (milliBars)'
+		      	title: 'Percentage (%)'
 		    	},
 		    	curveType: 'function'
 		  	};
@@ -71,4 +71,4 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators({fetchChart}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChartPressure);
+export default connect(mapStateToProps, mapDispatchToProps)(ChartHumidity);
