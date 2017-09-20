@@ -25,6 +25,7 @@ class SearchBar extends React.Component {
 		// console.log("true");
 		var input = document.getElementById('pac-input');
 		var autocomplete = new google.maps.places.Autocomplete(input);
+		google.charts.load('current', {packages: ['corechart', 'line']});
 	}
 
 	handleFormSubmit(event) {

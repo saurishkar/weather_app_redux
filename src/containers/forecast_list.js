@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ChartTemperature from './chart_temperature';
+import ChartPressure from './chart_pressure';
+// import ChartHumidity from './chart_humidity';
 
 class ForecastList extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.renderForecast = this.renderForecast.bind(this);
 	}
 
-	renderForecast(data) {
-		// console.log(data);
-		
+	renderForecast(data, index) {
 			return (
-					<tr>
+					<tr key={data.city.id}>
+						<td width="10%">{data.city.name}</td>
+						<td>{ this.props.googleChart && <ChartTemperature value={index}/>}</td>
+						<td>{ this.props.googleChart && <ChartPressure value={index}/>}</td>
 						<td></td>
 					</tr>
 				);
@@ -22,10 +28,10 @@ class ForecastList extends React.Component {
 				<table className="table">
 					<thead>
 						<tr>
-							<th width="20%">City</th>
-							<th>Temperature</th>
-							<th>Pressure</th>
-							<th>Humidity</th>
+							<th width="5%">City</th>
+							<th width="30%">Temperature</th>
+							<th width="30%">Pressure</th>
+							<th width="30%">Humidity</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,7 +44,7 @@ class ForecastList extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {weather: state.weather};
+	return {weather: state.weather, googleChart: state.googleChart};
 }
 
 export default connect(mapStateToProps)(ForecastList);
